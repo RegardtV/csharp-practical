@@ -9,9 +9,20 @@ namespace CSharp.Domain
     /// </summary>
     public abstract class InvoiceItem
     {
+        private double serviceHours;
         public DateTime ServiceDate { get; set; }
         public double ServiceRate { get; set; }
-        public int ServiceHours { get; set; }
+        public double ServiceHours
+        {
+            get { return serviceHours; }
+            // ServiceHours are set in intervals of 0.5
+            set 
+            {
+                if (value < Math.Floor(value) + 0.5) serviceHours = Math.Floor(value);
+                else serviceHours = Math.Floor(value) + 0.5;
+            }
+        }
+
         public string ServiceDelivered { get; set; }
         public double ServiceCost => ServiceHours * ServiceRate;
         
@@ -47,7 +58,7 @@ namespace CSharp.Domain
             this.ServiceRate = DEVELOPMENT_RATE;
             this.ServiceDelivered = "maintenance";
         }
-        public MaintenanceInvoiceItem(DateTime serviceDate, int serviceHours) : this()
+        public MaintenanceInvoiceItem(DateTime serviceDate, double serviceHours) : this()
         {
             ServiceDate = serviceDate;
             ServiceHours = serviceHours;
@@ -64,7 +75,7 @@ namespace CSharp.Domain
             this.ServiceRate = TESTING_RATE;
             this.ServiceDelivered = "testing";
         }
-        public TestingInvoiceItem(DateTime serviceDate, int serviceHours) : this()
+        public TestingInvoiceItem(DateTime serviceDate, double serviceHours) : this()
         {
             ServiceDate = serviceDate;
             ServiceHours = serviceHours;
@@ -82,7 +93,7 @@ namespace CSharp.Domain
             ServiceRate = OPTIMIZATION_RATE;
             ServiceDelivered = "optimization";
         }
-        public OptimizationInvoiceItem(DateTime serviceDate, int serviceHours) : this()
+        public OptimizationInvoiceItem(DateTime serviceDate, double serviceHours) : this()
         {
             this.ServiceDate = serviceDate;
             this.ServiceHours = serviceHours;
@@ -100,7 +111,7 @@ namespace CSharp.Domain
             ServiceRate = DEVELOPMENT_RATE;
             ServiceDelivered = "development";
         }
-        public DevelopmentInvoiceItem(DateTime serviceDate, int serviceHours) : this() 
+        public DevelopmentInvoiceItem(DateTime serviceDate, double serviceHours) : this() 
         {
             this.ServiceHours = serviceHours;
             this.ServiceDate = serviceDate;

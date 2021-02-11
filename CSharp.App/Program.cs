@@ -14,16 +14,13 @@ namespace CSharp.App
         /// Generates 12 invoices
         /// </summary>
         /// <returns>Iterator to an Inovice object</returns>
-        static IEnumerable<Invoice> invoiceGenerator()
+        static IEnumerable<Invoice> InvoiceGenerator()
         {
             var startingDate = DateTime.Today;
             int lastDayOfCurrentMonth;
-            int lastDayOfNextMonth;
 
             DateTime currentDate;
             DateTime createDate;
-            DateTime nextDate;
-            DateTime dueDate;
            
             Invoice nextInvoice;
 
@@ -36,20 +33,14 @@ namespace CSharp.App
                 lastDayOfCurrentMonth = DateTime.DaysInMonth(currentDate.Year, currentDate.Month);
                 createDate = new DateTime(currentDate.Year, currentDate.Month, lastDayOfCurrentMonth - 5);
                 
-                // iniitate date on which invoice is due
-                // always at the end of the following month
-                nextDate = currentDate.AddMonths(1);
-                lastDayOfNextMonth = DateTime.DaysInMonth(nextDate.Year, nextDate.Month);
-                dueDate = new DateTime(nextDate.Year, nextDate.Month, lastDayOfNextMonth);
-                
                 // initiate invoice 
-                nextInvoice = new Invoice($"{invoiceNumber++:000}INV", getCustomer(), createDate, dueDate);
+                nextInvoice = new Invoice($"INV{invoiceNumber++:000}", GetCustomer(), createDate);
                 
                 // retrieve iterator to an item list and assign item list to invoice
-                var invoiceItemsIterator = invoiceItemsGenerator(createDate);
+                var invoiceItemsIterator = InvoiceItemsGenerator(createDate);
                 foreach (var items in invoiceItemsIterator)
                 {
-                    nextInvoice.items = items;
+                    nextInvoice.Items = items;
                 }
                 // yield an invoice iterator
                 yield return nextInvoice;
@@ -60,7 +51,7 @@ namespace CSharp.App
         /// Returns a random customer from a list of customers
         /// </summary>
         /// <returns>Customer object</returns>
-        static Customer getCustomer()
+        static Customer GetCustomer()
         {
             Random rnd = new Random();
             var customers = new List<Customer>();
@@ -92,59 +83,52 @@ namespace CSharp.App
         /// </summary>
         /// <param name="invoiceDate">The date on which the invoice was issued</param>
         /// <returns>Iterator to an item list</returns>
-        static IEnumerable<List<InvoiceItem>> invoiceItemsGenerator(DateTime invoiceDate)
+        static IEnumerable<List<InvoiceItem>> InvoiceItemsGenerator(DateTime invoiceDate)
         {
             InvoiceItem tempItem;
             DateTime itemDate;
             var itemList = new List<InvoiceItem>();
             Random rnd = new Random();
 
-            var aDateInPreviousMonth = invoiceDate.AddMonths(-1);
-            var daysInPreviousMonth = DateTime.DaysInMonth(aDateInPreviousMonth.Year, aDateInPreviousMonth.Month);
-            
+            var invoiceDateOfPreviousMonth = invoiceDate.AddMonths(-1);
+            var daysInPreviousMonth = DateTime.DaysInMonth(invoiceDateOfPreviousMonth.Year, invoiceDateOfPreviousMonth.Month);
+            invoiceDateOfPreviousMonth = new DateTime(invoiceDateOfPreviousMonth.Year, invoiceDateOfPreviousMonth.Month, daysInPreviousMonth - 5);
+            TimeSpan timeSpanBetweenInvoiceDates = invoiceDate - invoiceDateOfPreviousMonth;
+ 
             // loop to generate 12 lists of invoice items for each invoice
             for (int i = 0; i < 12; i++)
             {
                 itemList.Clear();
                 // loop to generate a list of invoice items
-                // each list contain between 1 and 7 items
-                for (int j = 0; j < rnd.Next(1, 8); j++)
+                // each list contain between 1 and 10 items
+                for (int j = 0; j < rnd.Next(1, 11); j++)
                 {
-                    // initiate random item date for each invoice item within month on which invoice was issued
+                    // initiate random item date for each invoice item that falls wihitn valid date range
                     // also ensure item date do not fall on weekends
                     do
                     {
-                        var itemDay = rnd.Next(1, daysInPreviousMonth);
-                        // if item date falls after 5 days before end of the previous month it 
-                        // has to be included in the invoice of the current month
-                        if (itemDay >= daysInPreviousMonth - 5)
-                        {
-                            itemDate = new DateTime(aDateInPreviousMonth.Year, aDateInPreviousMonth.Month, itemDay);
-                        }
-                        else
-                        {
-                            itemDate = new DateTime(invoiceDate.Year, invoiceDate.Month, itemDay);
-                        }
-                    } while (itemDate.DayOfWeek == DayOfWeek.Saturday || itemDate.DayOfWeek == DayOfWeek.Sunday);
+                        TimeSpan tempTimeSpan = new TimeSpan(0, rnd.Next(0, (int)timeSpanBetweenInvoiceDates.TotalMinutes), 0);
+                        itemDate = invoiceDateOfPreviousMonth + tempTimeSpan;
+                    } while (6>7);//itemDate.DayOfWeek == DayOfWeek.Saturday || itemDate.DayOfWeek == DayOfWeek.Sunday);
 
                     // initate random invoice item type
-                    // each invoice item contains a service hours property that ranges from 1 to 8 hours
+                    // each invoice item contains a service hours property that ranges from 0.5 to 8 hours
                     switch (rnd.Next(1, 5))
                     {
                         case 1:
-                            tempItem = new MaintenanceInvoiceItem(itemDate, rnd.Next(1, 9));
+                            tempItem = new MaintenanceInvoiceItem(itemDate, rnd.NextDouble() * (8.4 - 0.5) + 0.5);
                             itemList.Add(tempItem);
                             break;
                         case 2:
-                            tempItem = new TestingInvoiceItem(itemDate, rnd.Next(1, 9));
+                            tempItem = new TestingInvoiceItem(itemDate, rnd.NextDouble() * (8.4 - 0.5) + 0.5);
                             itemList.Add(tempItem);
                             break;
                         case 3:
-                            tempItem = new OptimizationInvoiceItem(itemDate, rnd.Next(1, 9));
+                            tempItem = new OptimizationInvoiceItem(itemDate, rnd.NextDouble() * (8.4 - 0.5) + 0.5);
                             itemList.Add(tempItem);
                             break;
                         case 4:
-                            tempItem = new DevelopmentInvoiceItem(itemDate, rnd.Next(1, 9));
+                            tempItem = new DevelopmentInvoiceItem(itemDate, rnd.NextDouble() * (8.4 - 0.5) + 0.5);
                             itemList.Add(tempItem);
                             break;
 
@@ -158,7 +142,7 @@ namespace CSharp.App
         static void Main(string[] args)
         {
             // retrieve iterator to an invoice object and display invoice
-            var invoiceIterator = invoiceGenerator();
+            var invoiceIterator = InvoiceGenerator();
             foreach (var inv in invoiceIterator)
             {
                 inv.DisplayInvoice();
