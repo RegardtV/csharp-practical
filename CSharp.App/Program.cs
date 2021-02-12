@@ -17,27 +17,19 @@ namespace CSharp.App
         static IEnumerable<Invoice> InvoiceGenerator()
         {
             var startingDate = DateTime.Today;
-            int lastDayOfCurrentMonth;
-
             DateTime currentDate;
-            DateTime createDate;
-           
             Invoice nextInvoice;
 
             // loop to generate 12 invoices
             for (int i = 0; i < 12; i++)
             {
                 // initiate date on which invoice was issued
-                // always 5 days before end of month
-                currentDate = startingDate.AddMonths(i);
-                lastDayOfCurrentMonth = DateTime.DaysInMonth(currentDate.Year, currentDate.Month);
-                createDate = new DateTime(currentDate.Year, currentDate.Month, lastDayOfCurrentMonth - 5);
-                
+                currentDate = startingDate.AddMonths(i);                
                 // initiate invoice 
-                nextInvoice = new Invoice($"INV{invoiceNumber++:000}", GetCustomer(), createDate);
+                nextInvoice = new Invoice($"INV{invoiceNumber++:000}", GetCustomer(), currentDate);
                 
                 // retrieve iterator to an item list and assign item list to invoice
-                var invoiceItemsIterator = InvoiceItemsGenerator(createDate);
+                var invoiceItemsIterator = InvoiceItemsGenerator(currentDate);
                 foreach (var items in invoiceItemsIterator)
                 {
                     nextInvoice.Items = items;
@@ -109,7 +101,7 @@ namespace CSharp.App
                     {
                         TimeSpan tempTimeSpan = new TimeSpan(0, rnd.Next(0, (int)timeSpanBetweenInvoiceDates.TotalMinutes), 0);
                         itemDate = invoiceDateOfPreviousMonth + tempTimeSpan;
-                    } while (6>7);//itemDate.DayOfWeek == DayOfWeek.Saturday || itemDate.DayOfWeek == DayOfWeek.Sunday);
+                    } while (itemDate.DayOfWeek == DayOfWeek.Saturday || itemDate.DayOfWeek == DayOfWeek.Sunday);
 
                     // initate random invoice item type
                     // each invoice item contains a service hours property that ranges from 0.5 to 8 hours

@@ -10,22 +10,39 @@ namespace CSharp.Domain
     public abstract class InvoiceItem
     {
         private double serviceHours;
+        private string validationMessage;
         public DateTime ServiceDate { get; set; }
-        public double ServiceRate { get; set; }
+        public double ServiceRate { get; protected set; }
         public double ServiceHours
         {
             get { return serviceHours; }
             // ServiceHours are set in intervals of 0.5
-            set 
+            set
             {
-                if (value < Math.Floor(value) + 0.5) serviceHours = Math.Floor(value);
-                else serviceHours = Math.Floor(value) + 0.5;
+                if (value >= 0)
+                {
+                    if (value < Math.Floor(value) + 0.5) serviceHours = Math.Floor(value);
+                    else serviceHours = Math.Floor(value) + 0.5;
+                }
+                else
+                {
+                    ValidationMessage = "Service Hours must be a positive value";
+                }
             }
         }
 
-        public string ServiceDelivered { get; set; }
+        public string ServiceDelivered {get; protected set; }
         public double ServiceCost => ServiceHours * ServiceRate;
-        
+        public string ValidationMessage
+        {
+            get { return validationMessage; }
+            private set
+            {
+                validationMessage = value;
+                Console.WriteLine(validationMessage);
+            }
+        }
+
         public override string ToString()
         {
             return  $"Date: {ServiceDate.ToShortDateString()}, " +

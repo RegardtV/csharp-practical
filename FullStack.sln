@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSharp.App", "CSharp.App\CS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSharp.Domain", "CSharp.Domain\CSharp.Domain.csproj", "{B1AEFEB4-E028-41DC-915E-01AD7B98A8EB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharp.DomainTests", "CSharp.DomainTests1\CSharp.DomainTests.csproj", "{1328E0EE-D02F-4D70-8D8E-26D9ABFCEE36}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{B1AEFEB4-E028-41DC-915E-01AD7B98A8EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B1AEFEB4-E028-41DC-915E-01AD7B98A8EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B1AEFEB4-E028-41DC-915E-01AD7B98A8EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1328E0EE-D02F-4D70-8D8E-26D9ABFCEE36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1328E0EE-D02F-4D70-8D8E-26D9ABFCEE36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1328E0EE-D02F-4D70-8D8E-26D9ABFCEE36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1328E0EE-D02F-4D70-8D8E-26D9ABFCEE36}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
