@@ -22,7 +22,7 @@ namespace FullStack.API.Services
 
     public class UserService : IUserService
     {
-        private IFullStackRepository _repo;
+        private readonly IFullStackRepository _repo;
         private readonly AppSettings _appSettings;
 
         public UserService(IFullStackRepository repo, IOptions<AppSettings> appSettings)

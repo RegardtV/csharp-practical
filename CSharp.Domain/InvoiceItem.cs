@@ -9,20 +9,23 @@ namespace CSharp.Domain
     /// </summary>
     public abstract class InvoiceItem
     {
-        private double serviceHours;
-        private string validationMessage;
+        private double _serviceHours;
+        private string _validationMessage;
+        public int Id { get; set; }
         public DateTime ServiceDate { get; set; }
         public double ServiceRate { get; protected set; }
+        public Invoice Invoice { get; set; }
+        public int InvoiceId { get; set; }
         public double ServiceHours
         {
-            get { return serviceHours; }
+            get { return _serviceHours; }
             // ServiceHours are set in intervals of 0.5
             set
             {
                 if (value >= 0)
                 {
-                    if (value < Math.Floor(value) + 0.5) serviceHours = Math.Floor(value);
-                    else serviceHours = Math.Floor(value) + 0.5;
+                    if (value < Math.Floor(value) + 0.5) _serviceHours = Math.Floor(value);
+                    else _serviceHours = Math.Floor(value) + 0.5;
                 }
                 else
                 {
@@ -35,11 +38,11 @@ namespace CSharp.Domain
         public double ServiceCost => ServiceHours * ServiceRate;
         public string ValidationMessage
         {
-            get { return validationMessage; }
+            get { return _validationMessage; }
             private set
             {
-                validationMessage = value;
-                Console.WriteLine(validationMessage);
+                _validationMessage = value;
+                Console.WriteLine(_validationMessage);
             }
         }
 

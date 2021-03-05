@@ -19,7 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSharp.App", "CSharp.App\CS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSharp.Domain", "CSharp.Domain\CSharp.Domain.csproj", "{B1AEFEB4-E028-41DC-915E-01AD7B98A8EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharp.DomainTests", "CSharp.DomainTests1\CSharp.DomainTests.csproj", "{1328E0EE-D02F-4D70-8D8E-26D9ABFCEE36}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSharp.DomainTests", "CSharp.DomainTests1\CSharp.DomainTests.csproj", "{1328E0EE-D02F-4D70-8D8E-26D9ABFCEE36}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{6DEA9B26-8766-4EC7-8300-E012E50B7AE1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,6 +56,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1328E0EE-D02F-4D70-8D8E-26D9ABFCEE36} = {6DEA9B26-8766-4EC7-8300-E012E50B7AE1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {983E992D-0A55-46C1-887B-1FF7C88C78B0}

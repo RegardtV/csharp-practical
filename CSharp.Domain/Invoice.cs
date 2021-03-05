@@ -11,9 +11,9 @@ namespace CSharp.Domain
     public class Invoice
     {
         #region Backing Fields
-        private DateTime createDate;
-        private List<InvoiceItem> items;
-        private string validationMessage;
+        private DateTime _createDate;
+        private List<InvoiceItem> _items;
+        private string _validationMessage;
         #endregion
 
         #region Constructors
@@ -31,30 +31,32 @@ namespace CSharp.Domain
         #endregion
 
         #region Properties
+        public int Id { get; set; }
         public string RefNumber { get; set; }
         public Customer Customer { get; set; }
+        public int CustomerId { get; set; }
         public DateTime CreateDate
         {
-            get { return createDate; }
+            get { return _createDate; }
             set 
             {
                 // set CreateDate to 5 days before the end of the month of the date that was supplied
                 var daysInMonth = DateTime.DaysInMonth(value.Year, value.Month);
-                createDate = new DateTime(value.Year, value.Month, daysInMonth - 5);
+                _createDate = new DateTime(value.Year, value.Month, daysInMonth - 5);
                 
                 // initiate date on which invoice is due based on date on wich it was created
                 // the due date is always at the end of the following month
-                DueDate = createDate.AddMonths(1);
+                DueDate = _createDate.AddMonths(1);
                 var lastDayOfNextMonth = DateTime.DaysInMonth(DueDate.Year, DueDate.Month);
                 DueDate = new DateTime(DueDate.Year, DueDate.Month, lastDayOfNextMonth);
                 
             }
         }
         public DateTime DueDate { get; private set; }
-        public double Total => items.Sum(item => item.ServiceCost);
+        public double Total => _items.Sum(item => item.ServiceCost);
         public List<InvoiceItem> Items
         {
-            private get { return items; }
+            private get { return _items; }
             set
             {
                 // sets list of invoice items if item dates falls within valid range for this invoice
@@ -70,17 +72,17 @@ namespace CSharp.Domain
                         Console.WriteLine(item.ServiceDate.ToShortDateString());
                     }
                 }
-                if (isValidListOfItems) items = value;
+                if (isValidListOfItems) _items = value;
                 else ValidationMessage = "Item list contains items that fall outside the range of dates for this invoice";
             }
         }
         public string ValidationMessage
         {
-            get { return validationMessage; }
+            get { return _validationMessage; }
             private set 
             { 
-                validationMessage = value;
-                Console.WriteLine(validationMessage);
+                _validationMessage = value;
+                Console.WriteLine(_validationMessage);
             }
         }
         #endregion
@@ -157,7 +159,7 @@ namespace CSharp.Domain
                                 $"RATE PER HOUR\t|\t" +
                                 $"COST");
             Console.WriteLine("---------------------------------------------------------------------------------------------------------");
-            foreach (var item in items)
+            foreach (var item in Items)
             {
                 item.DisplayItem();
             }
@@ -167,4 +169,4 @@ namespace CSharp.Domain
         #endregion
     }
 }
-  
+   
