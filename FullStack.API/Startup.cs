@@ -47,6 +47,8 @@ namespace FullStack.API
             // configure DI for application services
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IInvoiceService, InvoiceService>();
+            services.AddScoped<IInvoiceValidator, InvoiceValidator>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -69,18 +71,19 @@ namespace FullStack.API
 
             }
 
-            //app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
 
             app.UseRouting();
 
             // global cors policy
-            /*app.UseCors(x => x
+            app.UseCors(x => x
                 .AllowAnyOrigin()
                 .AllowAnyMethod()
-                .AllowAnyHeader());*/
+                .AllowAnyHeader());
 
             // custom jwt auth middleware
-            //app.UseMiddleware<JwtMiddleware>();
+            app.UseMiddleware<JwtMiddleware>();
+            app.UseMiddleware<ValidationErrorHandlingMiddleware>();
 
             app.UseEndpoints(x => x.MapControllers());
         }

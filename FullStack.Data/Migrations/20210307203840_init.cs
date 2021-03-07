@@ -29,9 +29,8 @@ namespace FullStack.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RefNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DueDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Total = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    IssueDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DueDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -64,7 +63,6 @@ namespace FullStack.Data.Migrations
                     ServiceDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ServiceRate = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     ServiceHours = table.Column<double>(type: "float", nullable: false),
-                    ServiceCost = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     InvoiceId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -80,24 +78,24 @@ namespace FullStack.Data.Migrations
 
             migrationBuilder.InsertData(
                 table: "Invoices",
-                columns: new[] { "Id", "CreateDate", "DueDate", "RefNumber", "Total" },
-                values: new object[] { 1, new DateTime(2021, 1, 26, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2021, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), "INV001", 3175.49m });
+                columns: new[] { "Id", "DueDate", "IssueDate", "RefNumber" },
+                values: new object[] { 1, new DateTime(2021, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2021, 1, 26, 0, 0, 0, 0, DateTimeKind.Unspecified), "INV001" });
 
             migrationBuilder.InsertData(
                 table: "Invoices",
-                columns: new[] { "Id", "CreateDate", "DueDate", "RefNumber", "Total" },
-                values: new object[] { 5, new DateTime(2021, 2, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2021, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), "INV005", 1459.975m });
+                columns: new[] { "Id", "DueDate", "IssueDate", "RefNumber" },
+                values: new object[] { 5, new DateTime(2021, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2021, 2, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "INV005" });
 
             migrationBuilder.InsertData(
                 table: "InvoiceItems",
-                columns: new[] { "Id", "InvoiceId", "ServiceCost", "ServiceDate", "ServiceDescription", "ServiceHours", "ServiceRate" },
+                columns: new[] { "Id", "InvoiceId", "ServiceDate", "ServiceDescription", "ServiceHours", "ServiceRate" },
                 values: new object[,]
                 {
-                    { 1, 1, 555.525m, new DateTime(2021, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "testing", 4.5, 123.45m },
-                    { 2, 1, 699.9825m, new DateTime(2021, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "optimization", 3.5, 199.99m },
-                    { 3, 1, 1920m, new DateTime(2021, 1, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), "development", 6.0, 320m },
-                    { 4, 5, 499.9875m, new DateTime(2021, 2, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), "optimization", 2.5, 199.99m },
-                    { 5, 5, 960m, new DateTime(2021, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "development", 3.0, 320m }
+                    { 1, 1, new DateTime(2021, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "testing", 4.5, 123.45m },
+                    { 2, 1, new DateTime(2021, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "optimization", 3.5, 199.99m },
+                    { 3, 1, new DateTime(2021, 1, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), "development", 6.0, 320m },
+                    { 4, 5, new DateTime(2021, 2, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), "optimization", 2.5, 199.99m },
+                    { 5, 5, new DateTime(2021, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "development", 3.0, 320m }
                 });
 
             migrationBuilder.CreateIndex(

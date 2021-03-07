@@ -21,9 +21,10 @@ namespace FullStack.API.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public IActionResult GetAllInvoice()
         {
             var invoices = _invoiceService.GetAll();
+            
             return Ok(invoices);
         }
 

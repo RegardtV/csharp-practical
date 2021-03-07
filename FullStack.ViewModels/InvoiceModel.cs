@@ -9,7 +9,7 @@ namespace FullStack.ViewModels
     {
         public int Id { get; set; }
         public string RefNumber { get; set; }
-        public DateTime CreateDate { get; set; }
+        public DateTime IssueDate { get; set; }
         public DateTime DueDate { get; set; }
         public decimal Total { get; set; }
         public ICollection<InvoiceItemModel> Items { get; set; }

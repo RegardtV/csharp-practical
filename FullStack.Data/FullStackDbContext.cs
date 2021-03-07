@@ -27,17 +27,15 @@ namespace FullStack.Data
                 {
                     Id = 1,
                     RefNumber = "INV001",
-                    CreateDate = new DateTime(2021, 1, 26),
+                    IssueDate = new DateTime(2021, 1, 26),
                     DueDate = new DateTime(2021, 2, 28),
-                    Total = 3175.49M
                 },
                 new Invoice()
                 {
                     Id = 5,
                     RefNumber = "INV005",
-                    CreateDate = new DateTime(2021, 2, 23),
+                    IssueDate = new DateTime(2021, 2, 23),
                     DueDate = new DateTime(2021, 3, 31),
-                    Total = 1459.975M
                 }
             );
 
@@ -49,7 +47,6 @@ namespace FullStack.Data
                    ServiceDescription = "testing",
                    ServiceRate = 123.45M,
                    ServiceHours = 4.5,
-                   ServiceCost = 123.45M * (decimal)4.5,
                    InvoiceId = 1
                },
                new InvoiceItem
@@ -59,7 +56,6 @@ namespace FullStack.Data
                    ServiceDescription = "optimization",
                    ServiceRate = 199.99M,
                    ServiceHours = 3.5,
-                   ServiceCost = 199.995M * (decimal)3.5,
                    InvoiceId = 1
                },
                new InvoiceItem
@@ -69,7 +65,6 @@ namespace FullStack.Data
                    ServiceDescription = "development",
                    ServiceRate = 320M,
                    ServiceHours = 6,
-                   ServiceCost = 320M * (decimal)6,
                    InvoiceId = 1
                },
                new InvoiceItem
@@ -79,7 +74,6 @@ namespace FullStack.Data
                    ServiceDescription = "optimization",
                    ServiceRate = 199.99M,
                    ServiceHours = 2.5,
-                   ServiceCost = 199.995M * (decimal)2.5,
                    InvoiceId = 5
                },
                new InvoiceItem
@@ -89,7 +83,6 @@ namespace FullStack.Data
                    ServiceDescription = "development",
                    ServiceRate = 320M,
                    ServiceHours = 3,
-                   ServiceCost = 320M * (decimal)3,
                    InvoiceId = 5
                }
                );

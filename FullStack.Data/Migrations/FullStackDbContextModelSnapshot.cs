@@ -47,17 +47,14 @@ namespace FullStack.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("CreateDate")
+                    b.Property<DateTime>("DueDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DueDate")
+                    b.Property<DateTime>("IssueDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("RefNumber")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Total")
-                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -67,18 +64,16 @@ namespace FullStack.Data.Migrations
                         new
                         {
                             Id = 1,
-                            CreateDate = new DateTime(2021, 1, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DueDate = new DateTime(2021, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            RefNumber = "INV001",
-                            Total = 3175.49m
+                            IssueDate = new DateTime(2021, 1, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            RefNumber = "INV001"
                         },
                         new
                         {
                             Id = 5,
-                            CreateDate = new DateTime(2021, 2, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DueDate = new DateTime(2021, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            RefNumber = "INV005",
-                            Total = 1459.975m
+                            IssueDate = new DateTime(2021, 2, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            RefNumber = "INV005"
                         });
                 });
 
@@ -91,9 +86,6 @@ namespace FullStack.Data.Migrations
 
                     b.Property<int>("InvoiceId")
                         .HasColumnType("int");
-
-                    b.Property<decimal>("ServiceCost")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("ServiceDate")
                         .HasColumnType("datetime2");
@@ -118,7 +110,6 @@ namespace FullStack.Data.Migrations
                         {
                             Id = 1,
                             InvoiceId = 1,
-                            ServiceCost = 555.525m,
                             ServiceDate = new DateTime(2021, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ServiceDescription = "testing",
                             ServiceHours = 4.5,
@@ -128,7 +119,6 @@ namespace FullStack.Data.Migrations
                         {
                             Id = 2,
                             InvoiceId = 1,
-                            ServiceCost = 699.9825m,
                             ServiceDate = new DateTime(2021, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ServiceDescription = "optimization",
                             ServiceHours = 3.5,
@@ -138,7 +128,6 @@ namespace FullStack.Data.Migrations
                         {
                             Id = 3,
                             InvoiceId = 1,
-                            ServiceCost = 1920m,
                             ServiceDate = new DateTime(2021, 1, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ServiceDescription = "development",
                             ServiceHours = 6.0,
@@ -148,7 +137,6 @@ namespace FullStack.Data.Migrations
                         {
                             Id = 4,
                             InvoiceId = 5,
-                            ServiceCost = 499.9875m,
                             ServiceDate = new DateTime(2021, 2, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ServiceDescription = "optimization",
                             ServiceHours = 2.5,
@@ -158,7 +146,6 @@ namespace FullStack.Data.Migrations
                         {
                             Id = 5,
                             InvoiceId = 5,
-                            ServiceCost = 960m,
                             ServiceDate = new DateTime(2021, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ServiceDescription = "development",
                             ServiceHours = 3.0,

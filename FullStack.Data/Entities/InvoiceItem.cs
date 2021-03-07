@@ -12,8 +12,8 @@ namespace FullStack.Data.Entities
         public string ServiceDescription { get; set; }
         public Decimal ServiceRate { get; set; }
         public double ServiceHours { get; set; }
-        public Decimal ServiceCost { get; set; }
-        public Invoice Invoice { get; set; }
+        public Decimal ServiceCost => (decimal)ServiceHours * ServiceRate;
         public int InvoiceId { get; set; }
+        public Invoice Invoice { get; set; }
     }
 }

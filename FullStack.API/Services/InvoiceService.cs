@@ -10,7 +10,7 @@ using FullStack.API.Helpers;
 using FullStack.ViewModels;
 using FullStack.Data.Entities;
 using FullStack.Data;
-
+using FullStack.API.Exceptions;
 
 namespace FullStack.API.Services
 {
@@ -26,17 +26,19 @@ namespace FullStack.API.Services
     public class InvoiceService: IInvoiceService
     {
         private readonly IFullStackRepository _repo;
+        private readonly IInvoiceValidator _validator;
         private readonly AppSettings _appSettings;
-        public InvoiceService(IFullStackRepository repo, IOptions<AppSettings> appSettings)
+        public InvoiceService(IFullStackRepository repo, IInvoiceValidator validator, IOptions<AppSettings> appSettings)
         {
             this._repo = repo;
+            this._validator = validator;
             this._appSettings = appSettings.Value;
         }
 
         public IEnumerable<InvoiceModel> GetAll()
         {
             var invoiceList = _repo.GetInvoices();
-            
+
             return invoiceList.Select(inv => MapToInvoiceModel(inv));
         }
 
@@ -50,14 +52,21 @@ namespace FullStack.API.Services
 
         public InvoiceModel Create(InvoiceForManipulationModel invoice)
         {
-            var invoiceEntity = MapToInvoiceEntity(invoice);
-            invoiceEntity = _repo.CreateInvoice(invoiceEntity);
-            
+            var results = _validator.Validate(invoice).ToArray();
+            if (results.Length > 0)
+                throw new ValidationException(results);
+
+            Invoice invoiceEntity = MapToInvoiceEntity(invoice);
+            invoiceEntity = _repo.CreateInvoice(invoiceEntity);       
             return MapToInvoiceModel(invoiceEntity);
         }
 
         public InvoiceModel Update(int invoiceId, InvoiceForManipulationModel invoice)
         {
+            var results = _validator.Validate(invoice).ToArray();
+            if (results.Length > 0)
+                throw new ValidationException(results);
+
             var invoiceEntity = MapToInvoiceEntity(invoice);
             invoiceEntity = _repo.UpdateInvoice(invoiceId, invoiceEntity);
             if (invoiceEntity == null) return null;
@@ -82,7 +91,7 @@ namespace FullStack.API.Services
             {
                 Id = invoice.Id,
                 RefNumber = invoice.RefNumber,
-                CreateDate = invoice.CreateDate,
+                IssueDate = invoice.IssueDate,
                 DueDate = invoice.DueDate,
                 Total = invoice.Total,
                 Items = list
@@ -91,10 +100,9 @@ namespace FullStack.API.Services
 
         private Invoice MapToInvoiceEntity(InvoiceForManipulationModel invoice)
         {
-            return new Invoice
+            return new Invoice (getRefNumber())
             {
-                RefNumber = invoice.RefNumber,
-                CreateDate = invoice.CreateDate,
+                IssueDate = invoice.IssueDate,
                 DueDate = invoice.DueDate,
             };
         }
@@ -110,6 +118,13 @@ namespace FullStack.API.Services
                 ServiceCost = item.ServiceCost,
                 InvoiceId = item.InvoiceId
             };
+        }
+
+        private string getRefNumber()
+        {
+            const int lengthNumberPart = 4;
+            string ticks = DateTime.Now.Ticks.ToString();
+            return $"INV{ticks.Substring(ticks.Length - lengthNumberPart)}";
         }
     }
 }
